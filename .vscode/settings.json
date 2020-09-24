@@ -1,0 +1,11 @@
+{
+	"files.exclude": {
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/.git": true,
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/.vscode": true,
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/ActionRogueLike.xcworkspace": true,
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/Content": true,
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/DerivedDataCache": true,
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/Intermediate": true,
+		"/Users/jtburkle/Documents/Github/ActionRoguelike/Saved": true
+	}
+}

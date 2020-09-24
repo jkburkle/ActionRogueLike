@@ -1,0 +1,104 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "ActionRogueLike (Debug)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLike Mac Debug Build",
+			"program": "/Users/jtburkle/Documents/Github/ActionRoguelike/Binaries/Mac/UE4-Mac-Debug.app/Contents/MacOS/UE4-Mac-Debug",
+			"args": [
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLike (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLike Mac DebugGame Build",
+			"program": "/Users/jtburkle/Documents/Github/ActionRoguelike/Binaries/Mac/UE4-Mac-DebugGame.app/Contents/MacOS/UE4-Mac-DebugGame",
+			"args": [
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLike (Development)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLike Mac Development Build",
+			"program": "/Users/jtburkle/Documents/Github/ActionRoguelike/Binaries/Mac/UE4.app/Contents/MacOS/UE4",
+			"args": [
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLike (Shipping)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLike Mac Shipping Build",
+			"program": "/Users/jtburkle/Documents/Github/ActionRoguelike/Binaries/Mac/UE4-Mac-Shipping.app/Contents/MacOS/UE4-Mac-Shipping",
+			"args": [
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLike (Test)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLike Mac Test Build",
+			"program": "/Users/jtburkle/Documents/Github/ActionRoguelike/Binaries/Mac/UE4-Mac-Test.app/Contents/MacOS/UE4-Mac-Test",
+			"args": [
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLikeEditor (Debug)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLikeEditor Mac Debug Build",
+			"program": "/Users/Shared/Epic Games/UE_4.25/Engine/Binaries/Mac/UE4Editor-Mac-Debug.app/Contents/MacOS/UE4Editor-Mac-Debug",
+			"args": [
+				"/Users/jtburkle/Documents/Github/ActionRoguelike/ActionRoguelike.uproject"
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLikeEditor (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLikeEditor Mac DebugGame Build",
+			"program": "/Users/Shared/Epic Games/UE_4.25/Engine/Binaries/Mac/UE4Editor-Mac-DebugGame.app/Contents/MacOS/UE4Editor-Mac-DebugGame",
+			"args": [
+				"/Users/jtburkle/Documents/Github/ActionRoguelike/ActionRoguelike.uproject"
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "ActionRogueLikeEditor (Development)",
+			"request": "launch",
+			"preLaunchTask": "ActionRogueLikeEditor Mac Development Build",
+			"program": "/Users/Shared/Epic Games/UE_4.25/Engine/Binaries/Mac/UE4Editor.app/Contents/MacOS/UE4Editor",
+			"args": [
+				"/Users/jtburkle/Documents/Github/ActionRoguelike/ActionRoguelike.uproject"
+			],
+			"cwd": "/Users/Shared/Epic Games/UE_4.25",
+			"type": "lldb"
+		},
+		{
+			"name": "Generate Project Files",
+			"type": "mono",
+			"request": "launch",
+			"program": "/Users/Shared/Epic Games/UE_4.25/Engine/Binaries/DotNET/UnrealBuildTool.exe",
+			"console": "internalConsole",
+			"args": [
+				"-projectfiles",
+				"-vscode",
+				"-project=\"/Users/jtburkle/Documents/Github/ActionRoguelike/ActionRoguelike.uproject\"",
+				"-game",
+				"-engine"
+			],
+			"internalConsoleOptions": "openOnSessionStart",
+			"cwd": "/Users/Shared/Epic Games/UE_4.25"
+		}
+	]
+}
