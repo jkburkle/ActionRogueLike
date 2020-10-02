@@ -4,6 +4,7 @@
 #include "SCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -82,7 +83,28 @@ void ASCharacter::PrimaryAttack()
 {
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	
-	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
+	FCollisionObjectQueryParams ObjectQueryParams;
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+
+	FVector Start = CameraComp->GetComponentLocation();
+	FVector End = Start + (CameraComp->GetComponentRotation().Vector() * 1000);
+
+	FHitResult Hit;
+	GetWorld()->LineTraceSingleByObjectType(Hit, Start, End, ObjectQueryParams);
+
+	AActor* HitActor = Hit.GetActor();
+	
+	FRotator ProjectileRotation;
+	if (HitActor)
+	{
+		ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, HitActor->GetActorLocation());
+	}
+	else // if we didn't hit anything
+	{
+		ProjectileRotation = End.Rotation();
+	}
+	FTransform SpawnTM = FTransform(ProjectileRotation, HandLocation);
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
