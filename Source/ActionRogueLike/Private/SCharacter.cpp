@@ -105,11 +105,11 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	FRotator ProjectileRotation;
 	if (HitActor)
 	{
-		ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, HitActor->GetActorLocation());
+		ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, Hit.ImpactPoint);
 	}
 	else // if we didn't hit anything
 	{
-		ProjectileRotation = End.Rotation();
+		ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
 	}
 	FTransform SpawnTM = FTransform(ProjectileRotation, HandLocation);
 
