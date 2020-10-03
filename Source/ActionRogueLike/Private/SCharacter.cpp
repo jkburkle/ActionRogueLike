@@ -52,6 +52,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("SecondaryAttack", IE_Pressed, this, &ASCharacter::SecondaryAttack);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("StopJumping", IE_Released, this, &ACharacter::StopJumping); // not sure if this is necessary, but being safe
 
@@ -88,33 +89,53 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	
-	FCollisionObjectQueryParams ObjectQueryParams;
-	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
-	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+	SpawnProjectile(ProjectileClass);
+}
 
-	FVector Start = CameraComp->GetComponentLocation();
-	FVector End = Start + (CameraComp->GetComponentRotation().Vector() * 1000);
+void ASCharacter::SecondaryAttack()
+{
+	PlayAnimMontage(AttackAnim);
 
-	FHitResult Hit;
-	GetWorld()->LineTraceSingleByObjectType(Hit, Start, End, ObjectQueryParams);
+	GetWorldTimerManager().SetTimer(TimerHandle_SecondaryAttack, this, &ASCharacter::SecondaryAttack_TimeElapsed, 0.2f);
+}
 
-	AActor* HitActor = Hit.GetActor();
-	
-	FRotator ProjectileRotation;
-	if (HitActor)
+void ASCharacter::SecondaryAttack_TimeElapsed()
+{
+	SpawnProjectile(BlackHoleProjectileClass);
+}
+
+void ASCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
+{
+	if (ClassToSpawn)
 	{
-		ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, Hit.ImpactPoint);
-	}
-	else // if we didn't hit anything
-	{
-		ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
-	}
-	FTransform SpawnTM = FTransform(ProjectileRotation, HandLocation);
-
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+		FCollisionObjectQueryParams ObjectQueryParams;
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+
+		FVector Start = CameraComp->GetComponentLocation();
+		FVector End = Start + (CameraComp->GetComponentRotation().Vector() * 1000);
+
+		FHitResult Hit;
+		GetWorld()->LineTraceSingleByObjectType(Hit, Start, End, ObjectQueryParams);
+
+		AActor* HitActor = Hit.GetActor();
+	
+		FRotator ProjectileRotation;
+		if (HitActor)
+		{
+			ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, Hit.ImpactPoint);
+		}
+		else // if we didn't hit anything
+		{
+			ProjectileRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, End);
+		}
+		FTransform SpawnTM = FTransform(ProjectileRotation, HandLocation);
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+		GetWorld()->SpawnActor<AActor>(ClassToSpawn, SpawnTM, SpawnParams);
+	}
 }
