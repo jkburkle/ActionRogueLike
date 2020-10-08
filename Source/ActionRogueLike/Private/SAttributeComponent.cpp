@@ -2,17 +2,20 @@
 
 
 #include "SAttributeComponent.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
 USAttributeComponent::USAttributeComponent()
 {
-	Health = 100;
+	HealthMax = 100;
+	Health = HealthMax; // start out at max health
 }
 
 bool USAttributeComponent::ApplyHealthChange(float Delta)
 {
-	Health += Delta;
+	Health = FMath::Clamp(Health+Delta, 0.0f, HealthMax); // make sure health doesn't go negative
 
+	// we don't have an instigator right now so we just say nullptr
 	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
 
 	return true;
