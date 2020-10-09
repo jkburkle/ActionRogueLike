@@ -55,8 +55,6 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 		{
 			AttributeComp->ApplyHealthChange(-20.0f);
 
-			UE_LOG(LogTemp, Warning, TEXT("damage!"));
-
 			Destroy();
 		}
 	}
