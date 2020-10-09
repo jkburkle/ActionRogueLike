@@ -4,7 +4,10 @@
 #include "SMagicProjectile.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 #include "SAttributeComponent.h"
 
 // Sets default values
@@ -21,6 +24,9 @@ ASMagicProjectile::ASMagicProjectile()
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(SphereComp);
+
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("AudioComp");
+	AudioComp->SetupAttachment(RootComponent);
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
 	MovementComp->ProjectileGravityScale = 0.0f;
@@ -55,7 +61,7 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 		{
 			AttributeComp->ApplyHealthChange(-20.0f);
 
-			Destroy();
+			Detonate();
 		}
 	}
 }
@@ -65,7 +71,15 @@ void ASMagicProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 	// Only destroy projectile if we hit a physics object
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
-		Destroy();
+		Detonate();
 	}
+}
+
+void ASMagicProjectile::Detonate()
+{
+	UGameplayStatics::SpawnEmitterAtLocation(this, DetonateEffect, GetActorLocation(), GetActorRotation());
+	UGameplayStatics::PlaySoundAtLocation(this, DetonateSound, GetActorLocation());
+
+	Destroy();
 }
 

@@ -9,6 +9,8 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class USoundCue;
+class UAudioComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASMagicProjectile : public AActor
@@ -30,6 +32,15 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent* EffectComp;
 
+	UPROPERTY(EditDefaultsOnly)
+	UParticleSystem* DetonateEffect;
+
+	UPROPERTY(EditDefaultsOnly)
+	USoundCue* DetonateSound;
+
+	UPROPERTY(VisibleAnywhere)
+	UAudioComponent* AudioComp;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -38,6 +49,8 @@ protected:
 	
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	void Detonate();
 
 
 public:	
