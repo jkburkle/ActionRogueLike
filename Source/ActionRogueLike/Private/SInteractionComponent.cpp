@@ -2,7 +2,7 @@
 
 
 #include "SInteractionComponent.h"
-//#include "SGameplayInterface.h"
+#include "SGameplayInterface.h"
 
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
@@ -49,15 +49,15 @@ void USInteractionComponent::PrimaryInteract()
 	FHitResult Hit;
 	GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
 
-	// AActor* HitActor = Hit.GetActor();
-	// if (HitActor)
-	// {
-	// 	if (HitActor->Implements<ISGameplayInterface>())
-	// 	{
-	// 		APawn* MyPawn = Cast<APawn>(MyOwner);
+	AActor* HitActor = Hit.GetActor();
+	if (HitActor)
+	{
+		if (HitActor->Implements<USGameplayInterface>())
+		{
+			APawn* MyPawn = Cast<APawn>(MyOwner);
 			
-	// 		ISGameplayInterface::Execute_Interact(HitActor, MyPawn);
-	// 	}
-	// }
+			ISGameplayInterface::Execute_Interact(HitActor, MyPawn);
+		}
+	}
 }
 

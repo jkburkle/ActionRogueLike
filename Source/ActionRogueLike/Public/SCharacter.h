@@ -9,6 +9,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class UAnimMontage;
+class USInteractionComponent;
 class USAttributeComponent;
 
 UCLASS()
@@ -46,6 +47,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
 
+	UPROPERTY(VisibleAnywhere)
+	USInteractionComponent* InteractionComp;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	USAttributeComponent* AttributeComp;
 
@@ -65,6 +69,8 @@ protected:
 	void Dash_TimeElapsed();
 
 	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+
+	void PrimaryInteract();
 
 public:	
 	// Called every frame
