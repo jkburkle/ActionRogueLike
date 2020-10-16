@@ -31,6 +31,11 @@ bool USAttributeComponent::IsFullHealth()
 	return Health == HealthMax;
 }
 
+bool USAttributeComponent::IsLowHealth()
+{
+	return Health <= 0.2f * HealthMax; // returns true if at less than 20% health
+}
+
 float USAttributeComponent::GetHealthMax() const
 {
 	return HealthMax;
