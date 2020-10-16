@@ -41,5 +41,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsFullHealth();
 
+	UFUNCTION(BlueprintCallable)
+	float GetHealthMax() const;
+
 		
 };
