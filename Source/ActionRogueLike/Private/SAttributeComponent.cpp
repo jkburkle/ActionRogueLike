@@ -11,12 +11,12 @@ USAttributeComponent::USAttributeComponent()
 	Health = HealthMax; // start out at max health
 }
 
-bool USAttributeComponent::ApplyHealthChange(float Delta)
+bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
 	Health = FMath::Clamp(Health+Delta, 0.0f, HealthMax); // make sure health doesn't go negative
 
 	// we don't have an instigator right now so we just say nullptr
-	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
+	OnHealthChanged.Broadcast(InstigatorActor, this, Health, Delta);
 
 	return true;
 }

@@ -60,7 +60,7 @@ void ASHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(InstigatorPawn->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (AttributeComp && !AttributeComp->IsFullHealth()) // check for max health
 		{
-			if (AttributeComp->ApplyHealthChange(20.0f))
+			if (AttributeComp->ApplyHealthChange(InstigatorPawn, 20.0f))
 			{
 				Deactivate(); // if successful health change
 			}

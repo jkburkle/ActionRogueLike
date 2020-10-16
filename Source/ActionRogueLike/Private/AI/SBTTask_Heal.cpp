@@ -5,6 +5,7 @@
 #include "AIController.h"
 #include "GameFramework/Character.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "SAttributeComponent.h"
 
 EBTNodeResult::Type USBTTask_Heal::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -20,7 +21,7 @@ EBTNodeResult::Type USBTTask_Heal::ExecuteTask(UBehaviorTreeComponent& OwnerComp
         USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(MyPawn->GetComponentByClass(USAttributeComponent::StaticClass()));
         if (AttributeComp)
         {
-            if (AttributeComp->ApplyHealthChange(AttributeComp->GetHealthMax()))
+            if (AttributeComp->ApplyHealthChange(MyPawn, AttributeComp->GetHealthMax()))
 		    {
 			    return EBTNodeResult::Succeeded;
 		    }
