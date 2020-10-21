@@ -20,7 +20,7 @@ ASMagicProjectile::ASMagicProjectile()
 	SphereComp->SetCollisionProfileName("Projectile");
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASMagicProjectile::OnActorOverlap);
 	RootComponent = SphereComp;
-	SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::OnHit);	// set up a notification for when this component hits something blocking
+	// SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::OnHit);	// set up a notification for when this component hits something blocking
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(SphereComp);
@@ -66,14 +66,14 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 	}
 }
 
-void ASMagicProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-	// Only destroy projectile if we hit a physics object
-	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
-	{
-		Detonate();
-	}
-}
+// void ASMagicProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+// {
+// 	// Only destroy projectile if we hit a physics object
+// 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
+// 	{
+// 		Detonate();
+// 	}
+// }
 
 void ASMagicProjectile::Detonate()
 {
