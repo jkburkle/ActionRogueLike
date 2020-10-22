@@ -39,18 +39,9 @@ void ASCharacter::PostInitializeComponents()
 	AttributeComp->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
 }
 
-// Called when the game starts or when spawned
-void ASCharacter::BeginPlay()
+FVector ASCharacter::GetPawnViewLocation() const
 {
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ASCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+	return CameraComp->GetComponentLocation();
 }
 
 // Called to bind functionality to input
