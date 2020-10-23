@@ -9,6 +9,7 @@
 #include "SAttributeComponent.h"
 #include "EngineUtils.h"
 #include "SCharacter.h"
+#include "SPlayerState.h"
 
 ASGameModeBase::ASGameModeBase()
 {
@@ -116,9 +117,12 @@ void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
         if (Minion && Player) // it could be some other projectile that killed the minion, so we should be careful
         {
             // get credits storage
-            // if credit storage is not null
-                // grant credits (we dont need to do anything with the bool output)
-            // }
+            ASPlayerState* PState = ASPlayerState::GetPlayerState(Player);
+            // if credits storage isnt null
+            if (PState)
+            {
+                PState->ApplyCreditsChange(this, 40); // hard coded to 40 credit reward for minions -- maybe will be a variable in the future for minion
+            }
         }
     }
 

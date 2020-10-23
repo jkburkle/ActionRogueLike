@@ -3,6 +3,7 @@
 
 #include "SHealthPotion.h"
 #include "SAttributeComponent.h"
+#include "SPlayerState.h"
 
 
 ASHealthPotion::ASHealthPotion()
@@ -11,6 +12,8 @@ ASHealthPotion::ASHealthPotion()
 	// Disable collision, instead we use SphereComp to handle interaction queries
 	MeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	MeshComp->SetupAttachment(RootComponent);
+
+	CreditCost = 20;
 }
 
 
@@ -21,9 +24,18 @@ void ASHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		return;
 	}
 
-	// check if the player (InstigatorPawn) has enough credits
-	// if not, return
-	// if yes, subtract the credits and continue
+	ASPlayerState* PState = ASPlayerState::GetPlayerState(InstigatorPawn);
+	if (PState)
+	{
+		if (PState->GetCredits() < CreditCost) // can't pay for the potion
+		{
+			return;
+		}
+		else
+		{
+			PState->ApplyCreditsChange(this, -CreditCost); // pay for the potion and continue
+		}
+	}
 
 	USAttributeComponent* AttributeComp = USAttributeComponent::GetAttributes(InstigatorPawn);
 	// Check if not already at max health

@@ -18,6 +18,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* MeshComp;
 
+	UPROPERTY(VisibleAnywhere)
+	float CreditCost;
+
 public:
 
 	void Interact_Implementation(APawn* InstigatorPawn) override;
