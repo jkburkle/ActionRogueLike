@@ -109,6 +109,18 @@ void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
         float RespawnDelay = 2.0f;
         GetWorldTimerManager().SetTimer(TimerHandle_RespawnDelay, Delegate, RespawnDelay, false);
     }
+    else
+    {
+        ASAICharacter* Minion = Cast<ASAICharacter>(VictimActor);
+        Player = Cast<ASCharacter>(Killer); // we already declared player, and now we can guess that the player killed the minion
+        if (Minion && Player) // it could be some other projectile that killed the minion, so we should be careful
+        {
+            // get credits storage
+            // if credit storage is not null
+                // grant credits (we dont need to do anything with the bool output)
+            // }
+        }
+    }
 
     UE_LOG(LogTemp, Log, TEXT("OnActorKilled: Victim: %s, Killer: %s"), *GetNameSafe(VictimActor), *GetNameSafe(Killer));
 }

@@ -21,6 +21,10 @@ void ASHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		return;
 	}
 
+	// check if the player (InstigatorPawn) has enough credits
+	// if not, return
+	// if yes, subtract the credits and continue
+
 	USAttributeComponent* AttributeComp = USAttributeComponent::GetAttributes(InstigatorPawn);
 	// Check if not already at max health
 	if (ensure(AttributeComp) && !AttributeComp->IsFullHealth())
