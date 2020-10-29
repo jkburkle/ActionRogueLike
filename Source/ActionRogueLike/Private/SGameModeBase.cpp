@@ -11,6 +11,8 @@
 #include "SCharacter.h"
 #include "SPlayerState.h"
 
+static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("su.SpawnBots"), true, TEXT("Enable spawning of bots via timer."), ECVF_Cheat);
+
 ASGameModeBase::ASGameModeBase()
 {
     SpawnTimerInterval = 2.0f;
@@ -40,6 +42,12 @@ void ASGameModeBase::KillAll()
 
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
+    if (!CVarSpawnBots.GetValueOnGameThread())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Bot spawning disabled via cvar 'CVarSpawnBots'."));
+        return;
+    }
+    
     UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
     if (ensure(QueryInstance))
     {

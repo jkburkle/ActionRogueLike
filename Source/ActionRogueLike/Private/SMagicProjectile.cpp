@@ -9,6 +9,7 @@
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
 #include "SAttributeComponent.h"
+#include "SGameplayFunctionLibrary.h"
 
 // Sets default values
 ASMagicProjectile::ASMagicProjectile()
@@ -56,11 +57,16 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 {
 	if (OtherActor && OtherActor != GetInstigator())
 	{
-		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
-		if (AttributeComp)
-		{
-			AttributeComp->ApplyHealthChange(GetInstigator(), -20.0f);
+		// USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		// if (AttributeComp)
+		// {
+		// 	AttributeComp->ApplyHealthChange(GetInstigator(), -20.0f);
 
+		// 	Detonate();
+		// }
+
+		if (USGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, 20.0f, SweepResult))
+		{
 			Detonate();
 		}
 	}
