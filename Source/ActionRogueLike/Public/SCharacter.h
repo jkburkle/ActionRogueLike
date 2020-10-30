@@ -11,29 +11,12 @@ class USpringArmComponent;
 class UAnimMontage;
 class USInteractionComponent;
 class USAttributeComponent;
+class USActionComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
-protected:
-
-	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> ProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> BlackHoleProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> DashProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category = "Attack")
-	UAnimMontage* AttackAnim;
-
-	FTimerHandle TimerHandle_PrimaryAttack;
-	FTimerHandle TimerHandle_SecondaryAttack;
-	FTimerHandle TimerHandle_Dash;
 
 public:
 	// Sets default values for this character's properties
@@ -53,19 +36,20 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	USAttributeComponent* AttributeComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	USActionComponent* ActionComp;
+
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
+	void SprintStart();
+	void SprintStop();
+
 	void PrimaryAttack();
-	void PrimaryAttack_TimeElapsed();
 
 	void SecondaryAttack();
-	void SecondaryAttack_TimeElapsed();
 
 	void Dash();
-	void Dash_TimeElapsed();
-
-	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
 
 	void PrimaryInteract();
 
