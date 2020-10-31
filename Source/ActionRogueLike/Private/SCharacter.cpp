@@ -115,7 +115,12 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::SecondaryAttack()
 {
-	ActionComp->StartActionByName(this, "SecondaryAttack");
+	if (AttributeComp->IsFullRage())
+	{
+		AttributeComp->ApplyRageChange(this, -AttributeComp->GetRageMax());
+		
+		ActionComp->StartActionByName(this, "SecondaryAttack");
+	}
 }
 
 void ASCharacter::Dash()
@@ -133,5 +138,7 @@ void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent*
 	if (Delta < 0.0f)
 	{
 		GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+
+		OwningComp->ApplyRageChange(InstigatorActor, -Delta * 0.25f); // rage multiplier may become a variable
 	}
 }

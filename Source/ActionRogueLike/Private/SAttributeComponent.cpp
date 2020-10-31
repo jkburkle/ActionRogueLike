@@ -12,6 +12,9 @@ USAttributeComponent::USAttributeComponent()
 {
 	HealthMax = 100;
 	Health = HealthMax; // start out at max health
+
+	Rage = 0;
+	RageMax = 10;
 }
 
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
@@ -94,3 +97,27 @@ bool USAttributeComponent::Kill(AActor* InstigatorActor)
 	return ApplyHealthChange(InstigatorActor, -GetHealthMax());
 }
 
+
+bool USAttributeComponent::ApplyRageChange(AActor* InstigatorActor, float Delta)
+{
+	float OldRage = Rage;
+	
+	Rage = FMath::Clamp(Rage+Delta, 0.0f, RageMax); // make sure health doesn't go negative
+
+	float ActualDelta = Rage - OldRage;
+	OnRageChanged.Broadcast(InstigatorActor, this, Rage, ActualDelta);
+
+	UE_LOG(LogTemp, Log, TEXT("Rage: %f"), Rage);
+
+	return ActualDelta != 0;
+}
+
+bool USAttributeComponent::IsFullRage()
+{
+	return Rage == RageMax;
+}
+
+float USAttributeComponent::GetRageMax() const
+{
+	return RageMax;
+}

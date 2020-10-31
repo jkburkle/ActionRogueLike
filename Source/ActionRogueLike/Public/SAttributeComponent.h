@@ -8,6 +8,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, InstigatorActor, USAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnRageChanged, AActor*, InstigatorActor, USAttributeComponent*, OwningComp, float, NewRage, float, Delta);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -34,6 +35,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
 	float Health;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
+	float RageMax; // this should not change
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
+	float Rage;
+
 public:	
 
 	UPROPERTY(BlueprintAssignable)
@@ -56,6 +63,19 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool Kill(AActor* InstigatorActor);
+
+	
+	UPROPERTY(BlueprintAssignable)
+	FOnRageChanged OnRageChanged;
+	
+	UFUNCTION(BlueprintCallable, Category="Attributes")
+	bool ApplyRageChange(AActor* InstigatorActor, float Delta);
+
+	UFUNCTION(BlueprintCallable)
+	bool IsFullRage();
+
+	UFUNCTION(BlueprintCallable)
+	float GetRageMax() const;
 
 		
 };
