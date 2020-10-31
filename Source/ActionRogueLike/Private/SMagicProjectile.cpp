@@ -10,6 +10,8 @@
 #include "Sound/SoundCue.h"
 #include "SAttributeComponent.h"
 #include "SGameplayFunctionLibrary.h"
+#include "SActionComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
 ASMagicProjectile::ASMagicProjectile()
@@ -57,13 +59,14 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 {
 	if (OtherActor && OtherActor != GetInstigator())
 	{
-		// USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
-		// if (AttributeComp)
-		// {
-		// 	AttributeComp->ApplyHealthChange(GetInstigator(), -20.0f);
+		USActionComponent* ActionComp = Cast<USActionComponent>(OtherActor->GetComponentByClass(USActionComponent::StaticClass()));
+		if (ActionComp && ActionComp->ActiveGameplayTags.HasTag(ParryTag))
+		{
+			MovementComp->Velocity = -MovementComp->Velocity;
 
-		// 	Detonate();
-		// }
+			SetInstigator(Cast<APawn>(OtherActor));
+			return;
+		}
 
 		if (USGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, 20.0f, SweepResult))
 		{
@@ -71,15 +74,6 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 		}
 	}
 }
-
-// void ASMagicProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-// {
-// 	// Only destroy projectile if we hit a physics object
-// 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
-// 	{
-// 		Detonate();
-// 	}
-// }
 
 void ASMagicProjectile::Detonate()
 {

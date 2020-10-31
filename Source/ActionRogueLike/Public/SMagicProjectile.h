@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayTagContainer.h"
 #include "SMagicProjectile.generated.h"
 
 class USphereComponent;
@@ -22,6 +23,9 @@ public:
 	ASMagicProjectile();
 
 protected:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FGameplayTag ParryTag;
 
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* SphereComp;
@@ -46,9 +50,6 @@ protected:
 
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
-	// UFUNCTION()
-	// void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	void Detonate();
 
