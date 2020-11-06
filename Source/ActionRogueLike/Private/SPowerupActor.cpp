@@ -3,6 +3,7 @@
 
 #include "SPowerupActor.h"
 #include "Components/SphereComponent.h"
+#include "Net/UnrealNetwork.h"
 
 
 ASPowerupActor::ASPowerupActor()
@@ -25,15 +26,35 @@ void ASPowerupActor::Interact_Implementation(APawn* InstigatorPawn)
 
 void ASPowerupActor::ShowPowerup()
 {
-	SetPowerupState(true);
+	bPowerupUsed = false;
+	OnRep_PowerupUsed();
 }
 
 
 void ASPowerupActor::HideAndCooldownPowerup()
 {
-	SetPowerupState(false);
+	bPowerupUsed = true;
+	OnRep_PowerupUsed();
+}
 
-	GetWorldTimerManager().SetTimer(TimerHandle_RespawnTimer, this, &ASPowerupActor::ShowPowerup, RespawnTime);
+void ASPowerupActor::OnRep_PowerupUsed()
+{
+	if (bPowerupUsed)
+	{
+		SetPowerupState(false);
+		GetWorldTimerManager().SetTimer(TimerHandle_RespawnTimer, this, &ASPowerupActor::ShowPowerup, RespawnTime);
+	}
+	else
+	{
+		SetPowerupState(true);
+	}
+}
+
+void ASPowerupActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ASPowerupActor, bPowerupUsed);
 }
 
 void ASPowerupActor::SetPowerupState(bool bNewIsActive)

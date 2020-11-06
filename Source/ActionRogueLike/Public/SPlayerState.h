@@ -24,8 +24,11 @@ public:
 
 protected:
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player State")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated, Category = "Player State")
 	float Credits;
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastCreditsChanged(AActor* InstigatorActor, float NewCredits, float Delta);
 
 public:	
 

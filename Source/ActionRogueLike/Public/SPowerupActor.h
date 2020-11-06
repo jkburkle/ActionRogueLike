@@ -28,6 +28,12 @@ protected:
 
 	void SetPowerupState(bool bNewIsActive);
 
+	UPROPERTY(ReplicatedUsing = "OnRep_PowerupUsed", BlueprintReadOnly)
+	bool bPowerupUsed;
+
+	UFUNCTION()
+	void OnRep_PowerupUsed();
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USphereComponent* SphereComp;
 
