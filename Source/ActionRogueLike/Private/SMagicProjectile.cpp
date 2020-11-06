@@ -40,6 +40,7 @@ ASMagicProjectile::ASMagicProjectile()
 
 	InitialLifeSpan = 3.0f; // despawn after 3 seconds
 
+	// SetReplicates(true);
 }
 
 // Called when the game starts or when spawned

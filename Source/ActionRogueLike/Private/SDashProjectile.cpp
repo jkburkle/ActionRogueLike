@@ -27,6 +27,7 @@ ASDashProjectile::ASDashProjectile()
 	MovementComp->bRotationFollowsVelocity = true;
 	MovementComp->bInitialVelocityInLocalSpace = true;
 
+	// SetReplicates(true);
 }
 
 // Called when the game starts or when spawned
